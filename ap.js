@@ -55,6 +55,25 @@ app.route("/articles/:articleTitle")
 
     });
 
+})
+.put(function(req, res){
+    Articles.updateMany({title:req.params.articleTitle},
+        {title:req.body.title,content:req.body.content},
+        {overwrite: true},function(err){
+            if(!err){
+                res.send("successfully update articles");
+            }
+
+        
+    
+    });
+}).patch(function(req,res){
+    Articles.updateOne({title:req.params.articleTitle},{$set:req.body},function(err){
+        if(!err){
+            res.send("success full patch")
+        }
+
+    });
 });
 
 
