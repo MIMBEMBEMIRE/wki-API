@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const res = require("express/lib/response");
 const app = express();
 
 
@@ -44,6 +45,8 @@ app.route("/articles").get(function(req,res){
             });
 
 });
+
+
 app.route("/articles/:articleTitle")
 .get(function(req,res){
     Articles.findOne({title:req.params.articleTitle},function(err,foundArticle){
@@ -63,10 +66,7 @@ app.route("/articles/:articleTitle")
             if(!err){
                 res.send("successfully update articles");
             }
-
-        
-    
-    });
+        });
 }).patch(function(req,res){
     Articles.updateOne({title:req.params.articleTitle},{$set:req.body},function(err){
         if(!err){
@@ -74,25 +74,20 @@ app.route("/articles/:articleTitle")
         }
 
     });
-});
-
-
-app.route("/articles/:articlesTitle")
-.get(function(req,res){
-    
-
-    Articles.findOne({title:req.params.articles},function(err,foundArticle){
-        if(foundArticle){
-            res.send(foundArticle);
+}).delete(function(req, req){
+    Articles.deleteOne({title:req.params.articleTitle},function(err){
+        if(!err){
+            res.send("sucees deleted");s
         }else{
-            res.send("not articles was founded");
+            res.send(err);
         }
     });
-
 });
 
 
+    
 
+    
 app.listen(3000,function(){
     console.log("ap sucessfully running")
 });
